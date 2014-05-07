@@ -20,7 +20,7 @@ RUN npm install -g bower
 
 # Get winery sources
 RUN git clone --recursive git://git.eclipse.org/gitroot/winery/org.eclipse.winery.git
-RUN cd org.eclipse.winery && git checkout ${WINERY_REV}
+RUN cd org.eclipse.winery && git checkout ${WINERY_REV} && git reset --hard
 
 # Build models using maven
 RUN cd org.eclipse.winery/org.eclipse.winery.model.csar.toscametafile && mvn install
