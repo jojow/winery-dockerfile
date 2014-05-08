@@ -1,14 +1,15 @@
 FROM jolokia/tomcat-7.0
 
-MAINTAINER Johannes Wettinger
+MAINTAINER Johannes Wettinger, http://github.com/jojow
 
-# Specify revision of winery
+# Specify branch and revision of winery
+ENV WINERY_BRANCH master
 ENV WINERY_REV HEAD
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV PATH $PATH:/opt/apache-maven-3.2.1/bin/
 
-# Add PPA repositroy to get latest version of node.js
+# Add PPA repository to get latest version of node.js
 RUN add-apt-repository ppa:chris-lea/node.js
 
 # Install and configure dependencies
@@ -19,7 +20,7 @@ RUN wget http://artfiles.org/apache.org/maven/maven-3/3.2.1/binaries/apache-mave
 RUN npm install -g bower
 
 # Get winery sources
-RUN git clone --recursive git://git.eclipse.org/gitroot/winery/org.eclipse.winery.git
+RUN git clone --recursive git://git.eclipse.org/gitroot/winery/org.eclipse.winery.git -b ${WINERY_BRANCH}
 RUN cd org.eclipse.winery && git checkout ${WINERY_REV} && git reset --hard
 
 # Build models using maven
