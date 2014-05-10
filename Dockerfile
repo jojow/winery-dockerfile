@@ -28,10 +28,6 @@ RUN cd org.eclipse.winery/org.eclipse.winery.model.csar.toscametafile && mvn ins
 RUN cd org.eclipse.winery/org.eclipse.winery.model.selfservice && mvn install
 RUN cd org.eclipse.winery/org.eclipse.winery.model.tosca && mvn install
 
-# Fix bower calls
-RUN sed "s/bowerArguments = 'prune'$/bowerArguments = '--allow-root'/" -i org.eclipse.winery/org.eclipse.winery.repository/pom.xml
-RUN sed "s/bowerArguments = 'prune'$/bowerArguments = '--allow-root'/" -i org.eclipse.winery/org.eclipse.winery.topologymodeler/pom.xml
-
 # Build winery using maven
 RUN cd org.eclipse.winery && mvn clean package
 
