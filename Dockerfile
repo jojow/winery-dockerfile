@@ -20,17 +20,23 @@ RUN wget http://artfiles.org/apache.org/maven/maven-3/3.2.1/binaries/apache-mave
 RUN npm install -g bower
 
 # Get winery sources
+WORKDIR /opt
 RUN git clone --recursive git://git.eclipse.org/gitroot/winery/org.eclipse.winery.git -b ${WINERY_BRANCH}
-RUN cd org.eclipse.winery && git checkout ${WINERY_REV} && git reset --hard
+WORKDIR /opt/org.eclipse.winery
+RUN git checkout ${WINERY_REV} && git reset --hard
 
 # Build models using maven
-RUN cd org.eclipse.winery/org.eclipse.winery.model.csar.toscametafile && mvn install
-RUN cd org.eclipse.winery/org.eclipse.winery.model.selfservice && mvn install
-RUN cd org.eclipse.winery/org.eclipse.winery.model.tosca && mvn install
+WORKDIR /opt/org.eclipse.winery/org.eclipse.winery.model.csar.toscametafile
+RUN mvn install
+WORKDIR /opt/org.eclipse.winery/org.eclipse.winery.model.selfservice
+RUN mvn install
+WORKDIR /opt/org.eclipse.winery/org.eclipse.winery.model.tosca
+RUN mvn install
 
 # Build winery using maven
-RUN cd org.eclipse.winery && mvn clean package
+WORKDIR /opt/org.eclipse.winery
+RUN mvn clean package
 
 # Drop winery into tomcat
-RUN cp org.eclipse.winery/org.eclipse.winery.repository/target/winery.war /opt/tomcat/webapps/
-RUN cp org.eclipse.winery/org.eclipse.winery.topologymodeler/target/winery-topologymodeler.war /opt/tomcat/webapps/
+RUN cp /opt/org.eclipse.winery/org.eclipse.winery.repository/target/winery.war /opt/tomcat/webapps/
+RUN cp /opt/org.eclipse.winery/org.eclipse.winery.topologymodeler/target/winery-topologymodeler.war /opt/tomcat/webapps/
