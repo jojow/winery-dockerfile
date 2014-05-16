@@ -14,4 +14,4 @@ using your favorite Web browser.
 
 If you prefer to build a fresh image from the Dockerfile:
 
-    docker build -t="johannesw/winery" github.com/jojow/winery-dockerfile
+    docker build -t johannesw/winery github.com/jojow/winery-dockerfile
