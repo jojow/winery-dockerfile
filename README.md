@@ -6,9 +6,9 @@ Use this Dockerfile to run the latest version of [Winery](http://www.eclipse.org
 
 Then access
 
-    http://localhost:8080/winery
+    http://<DOCKERHOST>:8080/winery
 
-using your favorite Web browser.
+using your favorite Web browser. If you run Docker locally, `<DOCKERHOST>` is `localhost`. If you use Boot2docker (e.g., on Windows or Mac OS X), `<DOCKERHOST>` is `192.168.59.103`.
 
 ## Build fresh image from Dockerfile
 
