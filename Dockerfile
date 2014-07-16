@@ -10,7 +10,8 @@ ENV MAVEN_VERSION 3.2.2
 ENV TOMCAT_VERSION 7.0.54
 
 ENV DEBIAN_FRONTEND noninteractive
-ENV PATH $PATH:/opt/apache-maven-${MAVEN_VERSION}/bin/
+ENV CATALINA_HOME /opt/tomcat
+ENV PATH $PATH:/opt/apache-maven-${MAVEN_VERSION}/bin/:${CATALINA_HOME}/bin
 
 # Add PPA repository to get latest version of node.js
 RUN add-apt-repository ppa:chris-lea/node.js
@@ -22,9 +23,9 @@ RUN wget http://artfiles.org/apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/
         cp -R apache-maven-${MAVEN_VERSION} /opt
 RUN npm install -g bower
 
-# Install tomcat, inspired by jolokia/tomcat-7.0
+# Install tomcat (inspired by jolokia/tomcat-7.0)
 RUN wget http://archive.apache.org/dist/tomcat/tomcat-7/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz -O /tmp/catalina.tar.gz && \
-        tar xzf /tmp/catalina.tar.gz -C /opt && \
+        tar -zxf /tmp/catalina.tar.gz -C /opt && \
         ln -s /opt/apache-tomcat-${TOMCAT_VERSION} /opt/tomcat && \
         rm /tmp/catalina.tar.gz
 
@@ -33,9 +34,6 @@ RUN rm -rf /opt/tomcat/webapps/examples && rm -rf /opt/tomcat/webapps/docs
 
 # Replace 'random' with 'urandom' for quicker startups
 RUN rm /dev/random && ln -s /dev/urandom /dev/random
-
-ENV CATALINA_HOME /opt/tomcat
-ENV PATH $PATH:$CATALINA_HOME/bin
 
 # Get winery sources
 WORKDIR /opt
