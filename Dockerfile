@@ -57,4 +57,6 @@ RUN mvn clean package
 RUN cp /opt/org.eclipse.winery/org.eclipse.winery.repository/target/winery.war /opt/tomcat/webapps/
 RUN cp /opt/org.eclipse.winery/org.eclipse.winery.topologymodeler/target/winery-topologymodeler.war /opt/tomcat/webapps/
 
+EXPOSE 8080
+
 CMD [ "/opt/tomcat/bin/catalina.sh", "run" ]
