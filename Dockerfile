@@ -1,4 +1,4 @@
-FROM dockerfile/ubuntu
+FROM ubuntu:14.04
 
 MAINTAINER Johannes Wettinger, http://github.com/jojow
 
@@ -6,21 +6,25 @@ MAINTAINER Johannes Wettinger, http://github.com/jojow
 ENV WINERY_BRANCH master
 ENV WINERY_REV HEAD
 
-ENV MAVEN_VERSION 3.2.2
+ENV MAVEN_VERSION 3.2.5
 ENV MAVEN_URL http://artfiles.org/apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz
 
-ENV TOMCAT_VERSION 7.0.54
+ENV TOMCAT_VERSION 7.0.59
 ENV TOMCAT_URL http://archive.apache.org/dist/tomcat/tomcat-7/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz
 ENV CATALINA_HOME /opt/tomcat
+
+# Set system environment
+ENV HOME /root
+WORKDIR ${HOME}
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV PATH ${PATH}:/opt/apache-maven-${MAVEN_VERSION}/bin/:${CATALINA_HOME}/bin
 
 # Add PPA repository to get latest version of node.js
-RUN add-apt-repository ppa:chris-lea/node.js
+RUN apt-get update && apt-get install -y software-properties-common && add-apt-repository ppa:chris-lea/node.js
 
 # Install and configure dependencies
-RUN apt-get update && apt-get install -y git nodejs openjdk-7-jdk && apt-get clean
+RUN apt-get update && apt-get install -y nodejs git curl wget unzip openjdk-7-jdk build-essential && apt-get clean
 RUN wget ${MAVEN_URL} && \
         tar -zxf apache-maven-${MAVEN_VERSION}-bin.tar.gz && \
         cp -R apache-maven-${MAVEN_VERSION} /opt
