@@ -1,5 +1,11 @@
 # Dockerfile for Winery
 
+----
+
+### IMPORTANT: This Dockerfile is not actively maintained. Please consider using https://github.com/jojow/opentosca-dockerfiles
+
+----
+
 Use this Dockerfile to run the latest version of [Winery](http://www.eclipse.org/proposals/soa.winery):
 
     docker run -p 8080:8080 -d johannesw/winery
